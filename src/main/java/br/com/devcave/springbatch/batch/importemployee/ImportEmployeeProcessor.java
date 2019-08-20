@@ -10,13 +10,19 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 @Slf4j
+@Component
 public class ImportEmployeeProcessor implements ItemProcessor<EmployeeLine, Employee> {
 
     @Override
     public Employee process(final EmployeeLine item) throws Exception {
+//        if (new Random().nextBoolean()){
+//            throw new RuntimeException();
+//        }
         try{
+
             return Employee.builder()
                     .id(item.getId())
                     .name(item.getName())

@@ -11,7 +11,6 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -30,7 +29,6 @@ public class ImportEmployeeConfig {
         return taskExecutor;
     }
 
-
     @Bean
     public Step importEmployeeStep(final StepBuilderFactory stepBuilderFactory,
                                    final ImportEmployeeReader reader,
@@ -38,7 +36,7 @@ public class ImportEmployeeConfig {
                                    final ImportEmployeeProcessor processor,
                                    final TaskExecutor taskExecutor) {
         return stepBuilderFactory.get("importEmployeeStep")
-                .<EmployeeLine, Employee>chunk(10)
+                .<EmployeeLine, Employee>chunk(5)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)

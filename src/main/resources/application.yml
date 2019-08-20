@@ -1,0 +1,25 @@
+server:
+  port: 1980
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/devcave_springbatch
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: false
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        temp:
+          use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  batch:
+    job:
+      enabled: false
+    initializer:
+      enabled: true

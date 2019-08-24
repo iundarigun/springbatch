@@ -62,6 +62,7 @@ public class JobController {
         return ResponseEntity.ok(filePath);
     }
 
+    // TODO it is not working
     @GetMapping("manual")
     public HttpEntity<?> exportManualJob() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");

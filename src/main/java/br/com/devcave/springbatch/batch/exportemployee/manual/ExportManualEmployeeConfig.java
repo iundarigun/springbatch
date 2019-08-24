@@ -10,6 +10,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -22,6 +23,7 @@ import org.springframework.core.task.TaskExecutor;
 
 import java.util.Collection;
 
+// TODO it is not working
 @Slf4j
 @Configuration
 public class ExportManualEmployeeConfig {
@@ -29,31 +31,21 @@ public class ExportManualEmployeeConfig {
     public static final String EXPORT_MANUAL_EMPLOYEE_JOB = "exportManualEmployeeJob";
 
     @Bean
-    @StepScope
-    public PartitionHandler partitionHandler(final TaskExecutor taskExecutor,
-                                             final Step exportManualEmployeeStep) {
-        TaskExecutorPartitionHandler taskExecutorPartitionHandler = new TaskExecutorPartitionHandler();
-        taskExecutorPartitionHandler.setTaskExecutor(taskExecutor);
-        taskExecutorPartitionHandler.setStep(exportManualEmployeeStep);
-        taskExecutorPartitionHandler.setGridSize(10);
-        return taskExecutorPartitionHandler;
-    }
-
-    @Bean
+    @JobScope
     public Step exportMasterEmployeeStep(final StepBuilderFactory stepBuilderFactory,
                                          final EmployeeRangePartition employeeRangePartition,
                                          final Step exportManualEmployeeStep,
-                                         final TaskExecutor taskExecutor,
-                                         final PartitionHandler partitionHandler) {
+                                         final TaskExecutor taskExecutor) {
         return stepBuilderFactory.get("exportMasterEmployeeStep")
                 .partitioner("employeeRangePartition", employeeRangePartition)
-                .partitionHandler(partitionHandler)
+                .gridSize(10)
                 .step(exportManualEmployeeStep)
                 .taskExecutor(taskExecutor)
                 .build();
     }
 
     @Bean
+    @JobScope
     public Step exportManualEmployeeStep(final StepBuilderFactory stepBuilderFactory,
                                          final ExportManualEmployeeReader exportManualEmployeeReader,
                                          final ExportEmployeeWriter exportEmployeeWriter,

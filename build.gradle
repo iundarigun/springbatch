@@ -6,7 +6,7 @@ plugins {
 
 group = 'br.com.devcave'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '12'
+sourceCompatibility = '11'
 
 configurations {
 	compileOnly {

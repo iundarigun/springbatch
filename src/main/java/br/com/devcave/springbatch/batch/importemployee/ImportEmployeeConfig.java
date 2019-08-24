@@ -22,14 +22,6 @@ public class ImportEmployeeConfig {
     public static final String IMPORT_EMPLOYEE_JOB = "importEmployeeJob";
 
     @Bean
-    public TaskExecutor taskExecutor() {
-        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        taskExecutor.setCorePoolSize(15);
-
-        return taskExecutor;
-    }
-
-    @Bean
     public Step importEmployeeStep(final StepBuilderFactory stepBuilderFactory,
                                    final ImportEmployeeReader reader,
                                    final ImportEmployeeWriter writer,

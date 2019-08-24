@@ -18,10 +18,11 @@ public class ImportEmployeeProcessor implements ItemProcessor<EmployeeLine, Empl
 
     @Override
     public Employee process(final EmployeeLine item) throws Exception {
+        // Uncomment this part to simulate retry
 //        if (new Random().nextBoolean()){
 //            throw new RuntimeException();
 //        }
-        try{
+        try {
 
             return Employee.builder()
                     .id(item.getId())
@@ -30,7 +31,7 @@ public class ImportEmployeeProcessor implements ItemProcessor<EmployeeLine, Empl
                     .startDate(parseString(item.getStartDate()))
                     .endDate(parseString(item.getEndDate()))
                     .build();
-        }catch (Exception e ){
+        } catch (Exception e) {
             log.error("Error processing item: " + item, e);
         }
         return null;

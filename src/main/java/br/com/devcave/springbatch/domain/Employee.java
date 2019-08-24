@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -41,6 +42,11 @@ public class Employee {
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    @NotNull
+    @Builder.Default
+    @Column(nullable = false)
+    private Boolean enabled = Boolean.TRUE;
 
     @CreationTimestamp
     private LocalDateTime createDate;

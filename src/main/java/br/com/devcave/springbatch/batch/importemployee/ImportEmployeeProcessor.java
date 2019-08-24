@@ -17,24 +17,19 @@ import java.util.Random;
 public class ImportEmployeeProcessor implements ItemProcessor<EmployeeLine, Employee> {
 
     @Override
-    public Employee process(final EmployeeLine item) throws Exception {
-        // Uncomment this part to simulate retry
-//        if (new Random().nextBoolean()){
-//            throw new RuntimeException();
-//        }
-        try {
-
-            return Employee.builder()
-                    .id(item.getId())
-                    .name(item.getName())
-                    .position(Position.valueOf(item.getPosition()))
-                    .startDate(parseString(item.getStartDate()))
-                    .endDate(parseString(item.getEndDate()))
-                    .build();
-        } catch (Exception e) {
-            log.error("Error processing item: " + item, e);
+    public Employee process(final EmployeeLine item) {
+        // Simulate a random exption on 20% of the times
+        if (new Random().nextInt(10) >= 8) {
+            log.warn("process, random exception");
+            throw new RuntimeException();
         }
-        return null;
+        return Employee.builder()
+                .id(item.getId())
+                .name(item.getName())
+                .position(Position.valueOf(item.getPosition()))
+                .startDate(parseString(item.getStartDate()))
+                .endDate(parseString(item.getEndDate()))
+                .build();
     }
 
     private LocalDate parseString(final String date) {

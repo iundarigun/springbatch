@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @StepScope
 public class ExportEmployeeWriter extends FlatFileItemWriter<EmployeeLine> {
@@ -20,6 +22,12 @@ public class ExportEmployeeWriter extends FlatFileItemWriter<EmployeeLine> {
 
     @Value("#{jobParameters[filePath]}")
     private String filePath;
+
+    @Override
+    public String doWrite(List<? extends EmployeeLine> items) {
+        logger.info("write");
+        return super.doWrite(items);
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {

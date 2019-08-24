@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.retry.backoff.BackOffPolicy;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Slf4j
 @Configuration
@@ -23,15 +22,15 @@ public class ImportEmployeeConfig {
 
     @Bean
     public Step importEmployeeStep(final StepBuilderFactory stepBuilderFactory,
-                                   final ImportEmployeeReader reader,
-                                   final ImportEmployeeWriter writer,
-                                   final ImportEmployeeProcessor processor,
+                                   final ImportEmployeeReader importEmployeeReader,
+                                   final ImportEmployeeWriter importEmployeeWriter,
+                                   final ImportEmployeeProcessor importEmployeeProcessor,
                                    final TaskExecutor taskExecutor) {
         return stepBuilderFactory.get("importEmployeeStep")
                 .<EmployeeLine, Employee>chunk(5)
-                .reader(reader)
-                .processor(processor)
-                .writer(writer)
+                .reader(importEmployeeReader)
+                .processor(importEmployeeProcessor)
+                .writer(importEmployeeWriter)
                 .faultTolerant()
                 .retry(Exception.class)
                 .retryLimit(10)

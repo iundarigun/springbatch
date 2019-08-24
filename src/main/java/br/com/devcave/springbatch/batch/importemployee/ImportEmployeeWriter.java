@@ -21,9 +21,7 @@ public class ImportEmployeeWriter implements ItemWriter<Employee> {
 
     @Override
     public void write(List<? extends Employee> items) {
-        log.info("write, thread={}", Thread.currentThread().getName());
         employeeRepository.saveAll(items.stream().map(this::process).collect(Collectors.toList()));
-        log.info("write final, thread={}", Thread.currentThread().getName());
     }
 
     private Employee process(final Employee importedEmployee) {

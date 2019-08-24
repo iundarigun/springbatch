@@ -53,7 +53,4 @@ public class Employee {
 
     @UpdateTimestamp
     private LocalDateTime updateDate;
-
-    @Version
-    private Long version;
 }

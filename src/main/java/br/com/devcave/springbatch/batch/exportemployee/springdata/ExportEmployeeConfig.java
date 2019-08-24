@@ -21,15 +21,15 @@ public class ExportEmployeeConfig {
 
     @Bean
     public Step exportEmployeeStep(final StepBuilderFactory stepBuilderFactory,
-                                   final ExportEmployeeReader reader,
-                                   final ExportEmployeeWriter writer,
-                                   final ExportEmployeeProcessor processor,
+                                   final ExportEmployeeReader exportEmployeeReader,
+                                   final ExportEmployeeWriter exportEmployeeWriter,
+                                   final ExportEmployeeProcessor exportEmployeeProcessor,
                                    final TaskExecutor taskExecutor) {
         return stepBuilderFactory.get("exportEmployeeStep")
                 .<Employee, EmployeeLine>chunk(5)
-                .reader(reader)
-                .processor(processor)
-                .writer(writer)
+                .reader(exportEmployeeReader)
+                .processor(exportEmployeeProcessor)
+                .writer(exportEmployeeWriter)
                 .taskExecutor(taskExecutor)
                 .throttleLimit(4)
                 .build();

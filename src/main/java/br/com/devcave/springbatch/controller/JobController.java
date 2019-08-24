@@ -28,11 +28,11 @@ public class JobController {
 
     private final JobLauncher jobLauncher;
 
-    @Qualifier("importEmployeeJob")
     private final Job importEmployeeJob;
 
-    @Qualifier("exportEmployeeJob")
     private final Job exportEmployeeJob;
+
+    private final Job exportManualEmployeeJob;
 
     @PostMapping
     public HttpEntity<?> importJob(@RequestBody final String path) throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
@@ -58,6 +58,21 @@ public class JobController {
                 .toJobParameters();
 
         jobLauncher.run(exportEmployeeJob, jobParameters);
+
+        return ResponseEntity.ok(filePath);
+    }
+
+    @GetMapping("manual")
+    public HttpEntity<?> exportManualJob() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        String format = LocalDateTime.now().format(dateTimeFormatter);
+        String filePath = "/tmp/" + format + ".csv";
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("filePath", filePath)
+                .addString("time", format)
+                .toJobParameters();
+
+        jobLauncher.run(exportManualEmployeeJob, jobParameters);
 
         return ResponseEntity.ok(filePath);
     }

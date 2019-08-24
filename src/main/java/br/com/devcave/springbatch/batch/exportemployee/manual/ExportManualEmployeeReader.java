@@ -19,8 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ExportManualEmployeeReader implements ItemReader<Employee> {
 
-    @Value("#{stepExecutionContext[page]}")
+    @Value("#{stepExecutionContext['page']}")
     private Integer page;
+
+    @Value("#{stepExecutionContext['size']}")
+    private Integer size;
 
     private final EmployeeRepository employeeRepository;
 
